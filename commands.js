@@ -13,7 +13,7 @@ db.createCollection("bounties")
     db.bounties.insert({"name": "Thanoceros", "species": "Thanoceros", "bounty": "1000000000000"})
 
 // 2. Query for all bounties in the bounties collection
-.find()
+db.bounties.find()
 
 // 3. Insert many bounties at once using the given objects
 db.bounties.insertMany([
@@ -80,7 +80,10 @@ db.bounties.find({"location": "Grasslands"})
 // 2. Query for all bounties with a reward worth 10000 or more
 db.bounties.find({"reward": {"$gte": 10000}})
 // 3. Query for all bounties, but exclude the client attribute from being shown
-db.bounties.find({}, {"client": "Red Wolf"})
+
+// I used https://www.mongodb.com/docs/manual/reference/operator/aggregation/unset/#mongodb-pipeline-pipe.-unset
+//and it seemed to hold some desired result as the $in operand was confusing and seemed to ask me to include every bounty and just exclude the client which  I get is the point of the exercise but it is still time consuming and tried finding another way
+db.bounties.aggregate({$unset: "client"})
 // 4. Query for a Groundhog in the Woodlands
 db.bounties.find({"name": "Grandhog", "location": "Woodlands"})
 // Update and Delete
